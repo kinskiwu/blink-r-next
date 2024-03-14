@@ -1,19 +1,21 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBAfOU1Rq_G5l_mjs3tqF5t8TSHMQc7LJY",
-  authDomain: "short-url-app-86b9d.firebaseapp.com",
-  projectId: "short-url-app-86b9d",
-  storageBucket: "short-url-app-86b9d.appspot.com",
-  messagingSenderId: "364805850987",
-  appId: "1:364805850987:web:5adf15e2d758acdac16e2e"
+  apiKey: process.env.NEXT_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_FIREBASE_APP_ID
 };
 
 // Initialize Firebase
-export const app = initializeApp(firebaseConfig);
+// special setup for SSR
+export const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 export const auth = getAuth(app);
