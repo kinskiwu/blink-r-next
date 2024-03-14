@@ -1,14 +1,30 @@
 'use client'
 import React, { useState } from 'react';
+import { useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth';
+import { auth } from '../firebase/firebase.config';
+import { useRouter} from 'next/navigation';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [ signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+  const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would add your logic to sign in the user with the email and password
+    // todo: remove console log
     console.log(email, password);
+    try{
+      const res = await signInWithEmailAndPassword(email, password);
+      console.log('{res}', {res});
+      sessionStorage.setItem('user', true);
+      setEmail('');
+      setPassword('');
+      router.push('/')
+    }catch(err){
+      console.error(err);
+    }
   };
 
   return (
