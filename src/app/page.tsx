@@ -2,8 +2,8 @@
 import React, { useState, useEffect} from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase/firebase.config';
-import Link from 'next/link';
 import UrlShortenerDisplay from './components/UrlShortnerDisplay';
+import TopNavBar from './components/TopNavBar';
 
 const Home = () => {
   const [user] = useAuthState(auth);
@@ -27,31 +27,14 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-4">
-      <h1 className="text-4xl font-bold mb-8">Welcome to Short Url</h1>
-      {!isLoggedIn ? (
-        <div className="space-x-4">
-          <Link href="/sign-up" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
-              Sign Up
-          </Link>
-          <Link href="/sign-in" className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300">
-              Sign In
-          </Link>
-        </div>
-      ) : (
-        <div className="space-y-4">
-        <button
-          onClick={handleSignOut}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300"
-        >
-          Sign Out
-        </button>
-        < UrlShortenerDisplay />
-        </div>
-      )}
+    <div className="flex flex-col min-h-screen bg-gray-50 p-4">
+      <TopNavBar isLoggedIn={isLoggedIn} handleSignOut={handleSignOut} />
+      <div className="flex-grow flex flex-col items-center justify-center">
+        <h1 className="text-4xl font-bold mb-8">Welcome to Short Url</h1>
+        <UrlShortenerDisplay />
+      </div>
     </div>
   );
 };
-
 
 export default Home;
