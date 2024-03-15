@@ -2,13 +2,11 @@
 import React, { useState, useEffect} from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase/firebase.config';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const Home = () => {
   const [user] = useAuthState(auth);
   console.log('user', user);
-  const router = useRouter();
   const userSession = sessionStorage.getItem('user');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
