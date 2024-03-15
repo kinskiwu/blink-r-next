@@ -15,9 +15,17 @@ const Home = () => {
     useEffect(() => {
       if(!user && !userSession){
         setIsLoggedIn(false);
-        router.push('./sign-up')
+      }else {
+        setIsLoggedIn(true);
       }
   }, [user, userSession]);
+
+  const handleSignOut = () => {
+    console.log('Signing out...');
+    sessionStorage.removeItem('user');
+    setIsLoggedIn(false);
+    auth.signOut();
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -33,10 +41,7 @@ const Home = () => {
         </div>
       ) : (
         <button
-          onClick={() => {
-            console.log('Signing out...');
-            setIsLoggedIn(false);
-          }}
+          onClick={handleSignOut}
           className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 transition duration-300"
         >
           Sign Out
