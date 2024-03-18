@@ -6,13 +6,34 @@ const UrlShortenerDisplay = () => {
   const [shortUrl, setShortUrl] = useState('');
 
   const handleShortenUrl = async () => {
-    // Placeholder for URL shortening logic
-    // This is where you would call your API to shorten the URL
-    console.log('Shortening URL:', longUrl);
-    // Simulate a short URL response
-    const simulatedShortUrl = `https://short.url/${Math.random().toString(36).substr(2, 5)}`;
-    setShortUrl(simulatedShortUrl);
+    if (!longUrl) {
+      alert('Please enter a URL to shorten.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:4000/api/v1/url/shorten', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ longUrl })
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+
+      const data = await response.json();
+      console.log('data', data)
+      console.log(response.status, response.statusText);
+      setShortUrl(data.shortUrl);
+    } catch (error) {
+      console.error('There was an error shortening the URL:', error);
+      alert('Failed to shorten the URL.');
+    }
   };
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shortUrl).then(() => {
