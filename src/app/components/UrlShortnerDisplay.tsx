@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 const UrlShortenerDisplay = () => {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
-  const [shortUrlId, setShortUrlId ] = useState('');
 
   const handleShortenUrl = async () => {
     if (!longUrl) {
