@@ -11,7 +11,7 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ isLoggedIn, handleSignOut }) => {
   return (
     <div className="bg-white shadow-md">
       <div className="max-w-8xl mx-auto px-4 py-6 flex justify-between items-center">
-        <h2 className="text-xl px-4 font-semibold text-blue-600">MinervaL</h2>
+        <h1 className="text-xl px-4 font-semibold text-blue-600">MinervaL</h1>
         <div className="flex items-center space-x-4">
           {isLoggedIn ? (
             <>
