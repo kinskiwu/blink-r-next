@@ -10,13 +10,13 @@ interface TopNavBarProps {
 const TopNavBar: React.FC<TopNavBarProps> = ({ isLoggedIn, handleSignOut }) => {
   return (
     <div className="bg-white shadow-md">
-      <div className="max-w-6xl mx-auto px-4 py-6 flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-blue-600">Short URL</h2>
+      <div className="max-w-8xl mx-auto px-4 py-6 flex justify-between items-center">
+        <h2 className="text-xl px-4 font-semibold text-blue-600">MinervaL</h2>
         <div className="flex items-center space-x-4">
           {isLoggedIn ? (
             <>
               <Link href="/shorten-url" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300">
-                Shorten Ur
+                Shorten Url
               </Link>
               <Link href="/analytics" className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition duration-300">
                 Analytic
