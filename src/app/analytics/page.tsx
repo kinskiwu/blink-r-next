@@ -43,26 +43,21 @@ const Analytics = () => {
     setShortUrlId(id);
   };
 
-  return (
-    <div className="flex flex-col min-h-screen bg-gray-50 p-4">
-      <TopNavBar isLoggedIn={!!user} handleSignOut={() => auth.signOut()} />
-      <div className="flex-grow flex flex-col items-center justify-center">
-        <div className="w-full max-w-md">
+return (
+  <div className="flex flex-col min-h-screen bg-gray-50">
+    <TopNavBar isLoggedIn={!!user} handleSignOut={() => auth.signOut()} />
+    <div className="flex-grow flex justify-center items-center p-4">
+      <div className="flex flex-col md:flex-row items-center justify-around w-full max-w-4xl">
+        <div className="flex flex-col w-full md:w-1/2 max-w-md mb-8 md:mb-0 p-4 items-center">
           <input
             type="text"
             value={inputShortUrl}
             onChange={(e) => setInputShortUrl(e.target.value)}
             placeholder="Enter short URL id here"
-            className="w-full p-4 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mb-4 w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button
-            onClick={handleSubmitShortUrl}
-            className="w-full p-4 bg-blue-500 text-white rounded-md mb-4 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
-          >
-            Submit
-          </button>
           <select
-            className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="mb-4 w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={timeFrame}
             onChange={(e) => setTimeFrame(e.target.value)}
           >
@@ -70,9 +65,15 @@ const Analytics = () => {
             <option value="24h">Last 24 Hours</option>
             <option value="7d">Last 7 Days</option>
           </select>
+          <button
+            onClick={handleSubmitShortUrl}
+            className="w-full p-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+          >
+            Submit
+          </button>
         </div>
         {accessCount > 0 && (
-          <div className="mt-8">
+          <div className="w-full md:w-1/2 max-w-lg">
             <Chart
               options={{
                 chart: {
@@ -87,13 +88,13 @@ const Analytics = () => {
                 data: [accessCount]
               }]}
               type="bar"
-              width="500"
+              width="100%"
             />
           </div>
         )}
       </div>
     </div>
-  );
-};
-
+  </div>
+);
+}
 export default Analytics;
