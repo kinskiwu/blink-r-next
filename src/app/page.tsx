@@ -7,21 +7,22 @@ import TopNavBar from './components/TopNavBar';
 
 const Home = () => {
   const [user] = useAuthState(auth);
-  console.log('user', user);
-  const userSession = sessionStorage.getItem('user');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
+      const userSession = typeof window !== 'undefined' ? sessionStorage.getItem('user') : null;
       if(!user && !userSession){
         setIsLoggedIn(false);
       }else {
         setIsLoggedIn(true);
       }
-  }, [user, userSession]);
+  }, [user]);
 
   const handleSignOut = () => {
     console.log('Signing out...');
-    sessionStorage.removeItem('user');
+    if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('user');
+    }
     setIsLoggedIn(false);
     auth.signOut();
   };

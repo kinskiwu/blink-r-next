@@ -13,11 +13,8 @@ const SignIn = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // todo: remove console log
-    console.log(email, password);
     try{
       const res = await signInWithEmailAndPassword(email, password);
-      console.log('{res}', {res});
       sessionStorage.setItem('user', 'true');
       setEmail('');
       setPassword('');

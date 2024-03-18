@@ -12,13 +12,6 @@ const Analytics = () => {
   const [timeFrame, setTimeFrame] = useState('all');
   const [accessCount, setAccessCount] = useState(0);
 
-
-  useEffect(() => {
-    if (shortUrlId) {
-      fetchAnalyticsData();
-    }
-  }, [timeFrame, shortUrlId]);
-
   const fetchAnalyticsData = async () => {
     try {
       const response = await fetch(`http://localhost:4000/api/v1/url/analytics?shortUrlId=${shortUrlId}&timeFrame=${timeFrame}`, {
@@ -38,10 +31,19 @@ const Analytics = () => {
   };
 
     const handleSubmitShortUrl = () => {
-    const urlParts = inputShortUrl.split('/');
-    const id = urlParts.pop() || urlParts.pop();
-    setShortUrlId(id);
+      if(!inputShortUrl){
+        alert('Please input URL!')
+      }
+      const urlParts = inputShortUrl.split('/');
+      const id = urlParts.pop() || urlParts.pop() || '';
+      setShortUrlId(id);
   };
+
+    useEffect(() => {
+    if (shortUrlId) {
+      fetchAnalyticsData();
+    }
+  }, [timeFrame, shortUrlId, fetchAnalyticsData]);
 
 return (
   <div className="flex flex-col min-h-screen bg-gray-50">
@@ -49,7 +51,7 @@ return (
     <div className="flex-grow flex justify-center items-center p-4">
       <div className="flex flex-col md:flex-row items-center justify-around w-full max-w-4xl">
         <div className="flex flex-col w-full md:w-1/2 max-w-md mb-8 md:mb-0 p-4 items-center">
-          <h2 className="text-4xl font-bold mb-8">Athena's Gaze</h2>
+          <h2 className="text-4xl font-bold mb-8">Athena&apos;s Gaze</h2>
           <input
             type="text"
             value={inputShortUrl}

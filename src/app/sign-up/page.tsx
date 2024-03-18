@@ -12,12 +12,11 @@ const SignUp = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // todo: remove console log
-    console.log(email, password);
     try {
       const res = await createUserWithEmailAndPassword(email, password);
-      console.log('{res}', {res});
+    if (typeof window !== 'undefined') {
       sessionStorage.setItem('user', 'true');
+    }
       setEmail('');
       setPassword('');
       router.push('./')
