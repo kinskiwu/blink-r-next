@@ -1,10 +1,18 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const UrlShortenerDisplay = () => {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
   const [viewAnalytics, setViewAnalytics] = useState(false);
+  const [timeFrame, setTimeFrame] = useState('All Time');
+  const [accessCount, setAccessCount] = useState(0);
+
+    useEffect(() => {
+    if (viewAnalytics) {
+      handleFetchAnalytics();
+    }
+  }, [viewAnalytics]);
 
   const handleShortenUrl = async () => {
     if (!longUrl) {
@@ -35,6 +43,25 @@ const UrlShortenerDisplay = () => {
     }
   };
 
+  const handleFetchAnalytics = async () => {
+    const shortUrlId = shortUrl.split('/').pop();
+    try {
+      const response = await fetch(`http://localhost:4000/api/v1/url/analytics?shortUrlId=${shortUrlId}&timeFrame=all`, {
+        method: 'GET'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch analytics data.');
+      }
+
+      const data = await response.json();
+      setTimeFrame(data.timeFrame);
+      setAccessCount(data.accessCount);
+    } catch (error) {
+      console.error('Error fetching analytics data:', error);
+      alert('Failed to fetch analytics data.');
+    }
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shortUrl).then(() => {
@@ -85,9 +112,8 @@ const UrlShortenerDisplay = () => {
       {viewAnalytics && (
         <div className="mt-4 p-4 border border-gray-300 rounded-md shadow text-center">
           <h3 className="text-lg font-bold">Analytics for {shortUrl}</h3>
-          {/* Simulated Analytics Data */}
-          <p>Time Frame: {/* All Time */}</p>
-          <p>Assess Count: {/* 100 */}</p>
+          <p>Time Frame: {timeFrame}</p>
+          <p>Assess Count: {accessCount}</p>
         </div>
       )}
     </div>
