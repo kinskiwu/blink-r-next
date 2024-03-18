@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import TopNavBar from '../components/TopNavBar';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase/firebase.config';
-import Chart from 'react-apexcharts';
+import dynamic from 'next/dynamic';
+
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const Analytics = () => {
   const [user] = useAuthState(auth);
@@ -12,6 +14,7 @@ const Analytics = () => {
   const [timeFrame, setTimeFrame] = useState('all');
   const [accessCount, setAccessCount] = useState(0);
 
+  useEffect(() => {
   const fetchAnalyticsData = async () => {
     try {
       const response = await fetch(`http://localhost:4000/api/v1/url/analytics?shortUrlId=${shortUrlId}&timeFrame=${timeFrame}`, {
@@ -30,6 +33,11 @@ const Analytics = () => {
     }
   };
 
+  if (shortUrlId) {
+    fetchAnalyticsData();
+  }
+}, [timeFrame, shortUrlId]);
+
     const handleSubmitShortUrl = () => {
       if(!inputShortUrl){
         alert('Please input URL!')
@@ -38,12 +46,6 @@ const Analytics = () => {
       const id = urlParts.pop() || urlParts.pop() || '';
       setShortUrlId(id);
   };
-
-    useEffect(() => {
-    if (shortUrlId) {
-      fetchAnalyticsData();
-    }
-  }, [timeFrame, shortUrlId, fetchAnalyticsData]);
 
 return (
   <div className="flex flex-col min-h-screen bg-gray-50">
@@ -75,7 +77,7 @@ return (
             Get Analytics
           </button>
         </div>
-        {accessCount > 0 && (
+        {accessCount > 0 && typeof window !== 'undefined' && (
           <div className="w-full md:w-1/2 max-w-lg">
             <Chart
               options={{
