@@ -1,18 +1,11 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import React, { useState } from 'react';
 
 const UrlShortenerDisplay = () => {
   const [longUrl, setLongUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
-  const [viewAnalytics, setViewAnalytics] = useState(false);
-  const [timeFrame, setTimeFrame] = useState('All Time');
-  const [accessCount, setAccessCount] = useState(0);
-
-    useEffect(() => {
-    if (viewAnalytics) {
-      handleFetchAnalytics();
-    }
-  }, [viewAnalytics]);
+  const [shortUrlId, setShortUrlId ] = useState('');
 
   const handleShortenUrl = async () => {
     if (!longUrl) {
@@ -43,34 +36,10 @@ const UrlShortenerDisplay = () => {
     }
   };
 
-  const handleFetchAnalytics = async () => {
-    const shortUrlId = shortUrl.split('/').pop();
-    try {
-      const response = await fetch(`http://localhost:4000/api/v1/url/analytics?shortUrlId=${shortUrlId}&timeFrame=all`, {
-        method: 'GET'
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch analytics data.');
-      }
-
-      const data = await response.json();
-      setTimeFrame(data.timeFrame);
-      setAccessCount(data.accessCount);
-    } catch (error) {
-      console.error('Error fetching analytics data:', error);
-      alert('Failed to fetch analytics data.');
-    }
-  };
-
   const handleCopy = () => {
     navigator.clipboard.writeText(shortUrl).then(() => {
       alert('Short URL copied to clipboard!');
     });
-  };
-
-    const handleViewAnalytics = () => {
-    setViewAnalytics(true);
   };
 
   return (
@@ -99,21 +68,15 @@ const UrlShortenerDisplay = () => {
               >
                 Copy
               </button>
+              <Link href="/analytics">
               <button
-                onClick={handleViewAnalytics}
                 className="ml-2 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-300"
               >
                 Analytics
               </button>
+              </Link>
             </div>
           </div>
-        </div>
-      )}
-      {viewAnalytics && (
-        <div className="mt-4 p-4 border border-gray-300 rounded-md shadow text-center">
-          <h3 className="text-lg font-bold">Analytics for {shortUrl}</h3>
-          <p>Time Frame: {timeFrame}</p>
-          <p>Assess Count: {accessCount}</p>
         </div>
       )}
     </div>
