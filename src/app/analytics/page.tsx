@@ -49,6 +49,7 @@ return (
     <div className="flex-grow flex justify-center items-center p-4">
       <div className="flex flex-col md:flex-row items-center justify-around w-full max-w-4xl">
         <div className="flex flex-col w-full md:w-1/2 max-w-md mb-8 md:mb-0 p-4 items-center">
+          <h2 className="text-4xl font-bold mb-8">AnalyticsL</h2>
           <input
             type="text"
             value={inputShortUrl}

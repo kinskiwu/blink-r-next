@@ -19,7 +19,7 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ isLoggedIn, handleSignOut }) => {
                 Shorten Url
               </Link>
               <Link href="/analytics" className="px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600 transition duration-300">
-                Analytic
+                Analytics
               </Link>
               <button
                 onClick={handleSignOut}
