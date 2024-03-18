@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TopNavBar from '../components/TopNavBar';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase/firebase.config';
@@ -7,9 +7,17 @@ import Chart from 'react-apexcharts';
 
 const Analytics = () => {
   const [user] = useAuthState(auth);
+  const [inputShortUrl, setInputShortUrl] = useState('');
   const [shortUrlId, setShortUrlId] = useState('');
   const [timeFrame, setTimeFrame] = useState('all');
   const [accessCount, setAccessCount] = useState(0);
+
+
+  useEffect(() => {
+    if (shortUrlId) {
+      fetchAnalyticsData();
+    }
+  }, [timeFrame, shortUrlId]);
 
   const fetchAnalyticsData = async () => {
     try {
@@ -22,11 +30,17 @@ const Analytics = () => {
       }
 
       const data = await response.json();
-      setAccessCount(data.accessCount); // Update your state with the fetched data
+      setAccessCount(data.accessCount);
     } catch (error) {
       console.error('Error fetching analytics data:', error);
       alert('Failed to fetch analytics data.');
     }
+  };
+
+    const handleSubmitShortUrl = () => {
+    const urlParts = inputShortUrl.split('/');
+    const id = urlParts.pop() || urlParts.pop();
+    setShortUrlId(id);
   };
 
   return (
@@ -36,13 +50,19 @@ const Analytics = () => {
         <div className="w-full max-w-md">
           <input
             type="text"
-            value={shortUrlId}
-            onChange={(e) => setShortUrlId(e.target.value)}
+            value={inputShortUrl}
+            onChange={(e) => setInputShortUrl(e.target.value)}
             placeholder="Enter short URL id here"
-            className="w-full p-4 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-4 mb-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+          <button
+            onClick={handleSubmitShortUrl}
+            className="w-full p-4 bg-blue-500 text-white rounded-md mb-4 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+          >
+            Submit
+          </button>
           <select
-            className="w-full p-4 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={timeFrame}
             onChange={(e) => setTimeFrame(e.target.value)}
           >
@@ -50,31 +70,27 @@ const Analytics = () => {
             <option value="24h">Last 24 Hours</option>
             <option value="7d">Last 7 Days</option>
           </select>
-          <button
-            onClick={fetchAnalyticsData}
-            className="w-full p-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
-          >
-            Fetch Analytics
-          </button>
         </div>
-        <div className="mt-8">
-          <Chart
-            options={{
-              chart: {
-                id: 'access-count'
-              },
-              xaxis: {
-                categories: [timeFrame] // Simplified for demonstration
-              }
-            }}
-            series={[{
-              name: 'Access Count',
-              data: [accessCount] // Simplified for demonstration
-            }]}
-            type="bar"
-            width="500"
-          />
-        </div>
+        {accessCount > 0 && (
+          <div className="mt-8">
+            <Chart
+              options={{
+                chart: {
+                  id: 'access-count'
+                },
+                xaxis: {
+                  categories: [timeFrame]
+                }
+              }}
+              series={[{
+                name: 'Access Count',
+                data: [accessCount]
+              }]}
+              type="bar"
+              width="500"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
