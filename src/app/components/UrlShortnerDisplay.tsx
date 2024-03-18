@@ -47,14 +47,14 @@ const UrlShortenerDisplay = () => {
         type="text"
         value={longUrl}
         onChange={(e) => setLongUrl(e.target.value)}
-        placeholder="Enter your long URL here"
+        placeholder="Enter a URL to shorten"
         className="w-full p-4 mb-2 border border-gray-300 rounded-t-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <button
         onClick={handleShortenUrl}
         className="w-full p-4 bg-blue-500 text-white rounded-b-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
       >
-        Shorten URL
+        Shorten My URL
       </button>
       {shortUrl && (
         <div className="mt-4 p-4 border border-gray-300 rounded-md shadow">

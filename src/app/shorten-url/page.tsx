@@ -17,7 +17,7 @@ const [user] = useAuthState(auth);
     <div className="flex flex-col min-h-screen bg-gray-50 p-4">
       <TopNavBar isLoggedIn={!!user} handleSignOut={handleSignOut} />
       <div className="flex-grow flex flex-col items-center justify-center">
-        <h1 className="text-4xl font-bold mb-8">Shorten Your URL</h1>
+        <h2 className="text-4xl font-bold mb-8">Shorten URL</h2>
         <UrlShortenerDisplay />
       </div>
     </div>
