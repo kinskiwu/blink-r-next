@@ -30,7 +30,7 @@ const Home = () => {
     <div className="flex flex-col min-h-screen bg-gray-50 p-4">
       <TopNavBar isLoggedIn={!!user} handleSignOut={handleSignOut} />
       <div className="flex-grow flex flex-col items-center justify-center">
-        <h1 className="text-4xl font-bold mb-8">Welcome to Short URL</h1>
+        <h1 className="text-4xl font-bold mb-8">Welcome to Minerva</h1>
         {isLoggedIn && <UrlShortenerDisplay />}
       </div>
     </div>
