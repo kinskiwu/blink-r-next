@@ -53,7 +53,7 @@ return (
             type="text"
             value={inputShortUrl}
             onChange={(e) => setInputShortUrl(e.target.value)}
-            placeholder="Enter short URL id here"
+            placeholder="Enter your short URL here"
             className="mb-4 w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <select
@@ -69,7 +69,7 @@ return (
             onClick={handleSubmitShortUrl}
             className="w-full p-4 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
           >
-            Submit
+            Get Analytics
           </button>
         </div>
         {accessCount > 0 && (
